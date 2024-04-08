@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Web site created using create-react-app" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>Matthew Bevis • Software Developer</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var favicons = [
+                "%PUBLIC_URL%/favicon1.ico",
+                "%PUBLIC_URL%/favicon2.ico",
+                "%PUBLIC_URL%/favicon3.ico",
+                "%PUBLIC_URL%/favicon4.ico",
+                "%PUBLIC_URL%/favicon5.ico",
+                "%PUBLIC_URL%/favicon6.ico",
+                "%PUBLIC_URL%/favicon7.ico",
+                "%PUBLIC_URL%/favicon8.ico",
+                "%PUBLIC_URL%/favicon9.ico",
+                "%PUBLIC_URL%/favicon10.ico",
+            ];
+            var currentFavicon = 0;
+            var increment = true; // Flag to determine whether to increment or decrement the favicon index
+        
+            function changeFavicon() {
+                var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+                link.type = 'image/x-icon';
+                link.rel = 'shortcut icon';
+                link.href = favicons[currentFavicon];
+                document.getElementsByTagName('head')[0].appendChild(link);
+        
+                if (currentFavicon === favicons.length - 1) {
+                    increment = false;               
+                } else if (currentFavicon === 0) {
+                    increment = true;
+                }
+        
+                currentFavicon += increment ? 1 : -1;
+            }
+        
+            setInterval(changeFavicon, 300); // Adjust time as needed for faster or slower transitions
+        });
+    </script>
+</head>
+<body>
+    <noscript>
+        For the best experience on our website, please enable JavaScript in your browser.
+    </noscript>
+    <div id="root"></div> 
+</body>
+</html>
