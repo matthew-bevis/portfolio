@@ -3,7 +3,7 @@
 import React from 'react';
 import { ThemeProvider} from './context/themeContext';
 import HomePage from './home/page';
-import 'global.css';
+import './global.css';
 
 function Page() {
     return (
