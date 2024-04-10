@@ -3,7 +3,7 @@
 import React from 'react';
 import { ThemeProvider} from './context/themeContext';
 import HomePage from './home/page';
-import { AppCacheProvider } from '@mui/material-nextjs/v13-pagesRouter';
+import 'globals.css';
 
 function Page() {
     return (
