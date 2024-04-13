@@ -32,12 +32,13 @@
 }
 
 .banner-image.light {
-    background-image: url('./assets/images/banneralt.webp');
+    background-image: url('./images/banneralt.webp');
 }
 
 .banner-image.dark {
-    background-image: url('./assets/images/banneraltnegative.webp');
+    background-image: url('./images/banneraltnegative.webp');
 }
+
 body{
     margin: 0;
 }

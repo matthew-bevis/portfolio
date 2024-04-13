@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from './_components/header';
 import Footer from './_components/footer';
-import { ThemeProvider } from './context/themeContext';
-import Head from 'next/head';
+import { ThemeProvider, useTheme } from './context/themeContext';
 import './global.css';
 
 interface LayoutProps {
@@ -43,20 +42,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const dynamicFavicon = useDynamicFavicon();
   return (
     <ThemeProvider>
-      <>
-        <Head>
+      <html>
+        <head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#000000" />
           <meta name="description" content="Web site created using create-next-app" />
-          <link rel="icon" href="/favicon1.ico" />
-          <link rel="manifest" href="/manifest.json" />
+          <link rel="icon" href={dynamicFavicon}/>
+          <link rel="manifest" href="./manifest.json" />
           <title>Matthew Bevis • Software Dev</title>
-        </Head>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-      </>
+        </head>
+          <body><Header/>{children}<Footer/></body>
+      </html>
     </ThemeProvider>
   );
 };

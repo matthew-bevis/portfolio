@@ -8,29 +8,35 @@ interface TypewriterProps {
 
 const Typewriter: React.FC<TypewriterProps> = ({ text, speed, onTypingDone }) => {
     const [typedText, setTypedText] = useState<string>('');
+    const [currentIndex, setCurrentIndex] = useState<number>(0); // Now explicitly typed as number
     const [isTypingComplete, setIsTypingComplete] = useState<boolean>(false);
 
     useEffect(() => {
-        if (isTypingComplete) {
-            return;
+        if (isTypingComplete || !text || currentIndex >= text.length) {
+        return;
+    }
+
+    const typingInterval = setInterval(() => {
+        setTypedText((prev) => prev + text[currentIndex]);
+        setCurrentIndex((prevIndex) => {
+        const newIndex = prevIndex + 1;
+        if (newIndex === text.length) {
+            clearInterval(typingInterval);
+            setIsTypingComplete(true);
+            onTypingDone && onTypingDone();
         }
+        return newIndex;
+        });
+    }, speed);
 
-        let index = 0;
-        const typingInterval = setInterval(() => {
-            if (index < text.length) {
-                setTypedText((prev) => prev + text[index]);
-                index++;
-            } else {
-                clearInterval(typingInterval);
-                setIsTypingComplete(true);
-                if (onTypingDone) {
-                    onTypingDone();
-                }
-            }
-        }, speed);
+    return () => clearInterval(typingInterval);
+    }, [text, speed, onTypingDone, isTypingComplete, currentIndex]);
 
-        return () => clearInterval(typingInterval);
-    }, [text, speed, onTypingDone, isTypingComplete]);
+    useEffect(() => {
+    setTypedText('');
+    setCurrentIndex(0);
+    setIsTypingComplete(false);
+    }, [text]);
 
     return <span>{typedText}</span>;
 };
