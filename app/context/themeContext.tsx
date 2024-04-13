@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material';
+import { createTheme, CssBaseline, ThemeProvider as MuiThemeProvider } from '@mui/material';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -13,6 +13,19 @@ interface ThemeContextType {
     theme: Theme;
     toggleTheme: () => void;
 }
+
+const lightTheme = createTheme({
+    palette: {
+        mode: 'light',
+        
+    },
+});
+
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+});
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
@@ -50,6 +63,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     return (
         <MuiThemeProvider theme={themeConfig}>
             <ThemeContext.Provider value={{ theme, toggleTheme }}>
+                <CssBaseline/>
                 {children}
             </ThemeContext.Provider>
         </MuiThemeProvider>

@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -83,7 +81,7 @@ const Header: React.FC = () => {
                         >
                             {menuItems.map((item) => (
                                 <MenuItem key={item.name} onClick={handleClose}>
-                                    <Link href={item.link} passHref legacyBehavior>
+                                    <Link href={item.link} passHref>
                                         <a style={{ display: 'flex', alignItems: 'center' }}>
                                             {item.icon}{item.name}
                                         </a>

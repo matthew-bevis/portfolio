@@ -3,24 +3,25 @@
 import React, { useEffect, useState } from 'react';
 import Header from './_components/header';
 import Footer from './_components/footer';
-import { ThemeProvider, useTheme } from './context/themeContext';
+import { ThemeProvider } from './context/themeContext';
 import './global.css';
+import Script from 'next/script';
 
 interface LayoutProps {
   children: React.ReactNode; // use React.ReactNode for children
 }
 // Define your favicons and their paths
 const favicons = [
-  '/favicon1.ico',
-  '/favicon2.ico',
-  '/favicon3.ico',
-  '/favicon4.ico',
-  '/favicon5.ico',
-  '/favicon6.ico',
-  '/favicon7.ico',
-  '/favicon8.ico',
-  '/favicon9.ico',
-  '/favicon10.ico',
+  '/icons/favicon1.ico',
+  '/icons/favicon2.ico',
+  '/icons/favicon3.ico',
+  '/icons/favicon4.ico',
+  '/icons/favicon5.ico',
+  '/icons/favicon6.ico',
+  '/icons/favicon7.ico',
+  '/icons/favicon8.ico',
+  '/icons/favicon9.ico',
+  '/icons/favicon10.ico',
 ];
 
 const useDynamicFavicon = (intervalDuration: number = 300) => {
@@ -48,9 +49,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#000000" />
           <meta name="description" content="Web site created using create-next-app" />
-          <link rel="icon" href={dynamicFavicon}/>
+          <link rel="icon" href='favicon.ico'/>
           <link rel="manifest" href="./manifest.json" />
           <title>Matthew Bevis • Software Dev</title>
+          <Script id='test'>
+            
+          </Script>
         </head>
           <body><Header/>{children}<Footer/></body>
       </html>
