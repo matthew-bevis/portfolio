@@ -23,7 +23,8 @@ function PortfolioPage() {
         style={{
             backgroundColor: theme === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
             border: `2px solid ${theme === 'dark' ? '#000000' : '#ffffff'}`,
-            borderRadius: '8px'
+            borderRadius: '8px',
+            paddingBottom: '20px'
         }}>
         <h1>Here are some projects I&apos;ve worked on.</h1>
         <h3>For a better look at what I can do, check out my </h3>
