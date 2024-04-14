@@ -55,7 +55,7 @@
 
 .portfolio-banner-text {
     position: relative;
-    top: -10vh;
+    top: 0;
     width: 80vw; /* Scale with the viewport */
     max-width: 500px; /* Maximum width */
     margin: auto; /* Center horizontally */

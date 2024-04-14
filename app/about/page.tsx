@@ -21,12 +21,20 @@ const AboutPage: React.FC = () => {
       </AnimatePresence>
       <div className="banner-text" 
       style={{
-        backgroundColor: theme === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+        backgroundColor: theme === 'dark' ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)',
         border: `2px solid ${theme === 'dark' ? '#000000' : '#ffffff'}`,
         borderRadius: '8px'
         }}>
-        <h1>My name is Matthew</h1>
-        <h3>Here are some of the tools I work with</h3>
+        <h1>My name is Matthew Bevis</h1>
+        <h3>I am a software developer with a degree in Computer Programming and 
+          Applications from Florida State University.  I have an acute passion for 
+          software development-- that coupled with my extensive customer service experience
+          make me a desirable employee within any context.  My professional journey has 
+          equipped me with a versatile skill set in full-stack development across multiple 
+          languages, frameworks, and platforms. I am proficient in version control using 
+          Git and GitHub, ensuring efficient management and collaboration in development 
+          projects. </h3>
+        <h3>Here are some of the tools I work with:</h3>
         <Toolbox/>
       </div>
     </div>

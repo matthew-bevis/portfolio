@@ -23,7 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         // When reaching the last favicon, start from the first one again
         return prevIndex >= TOTAL_FAVICONS ? 1 : prevIndex + 1;
       });
-    }, 500); // Change favicon every 1000ms (1 second)
+    }, 300); // Change favicon every 1000ms (1 second)
 
     // Clear the interval when the component is unmounted
     return () => clearInterval(interval);
