@@ -55,11 +55,26 @@ const ContactForm: React.FC = () => {
         return Object.keys(tempErrors).length === 0;
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validateForm()) {
-            console.log('FormData:', formData);
-            alert('Form is valid and submitted, check the console for data.');
+            try {
+                const response = await fetch('/api/sendEmail', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    alert('Form is valid and submitted, check your email for data.');
+                } else {
+                    throw new Error(data.error || 'Failed to send email');
+                }
+            } catch (error: any) {
+                alert(`Error: ${error.message}`);
+            }
         }
     };
 
