@@ -4,16 +4,31 @@ import React, { useEffect, useState } from 'react';
 import Header from './_components/header';
 import Footer from './_components/footer';
 import { ThemeProvider } from './context/themeContext';
-import Head from 'next/head'
+import DynamicFavicon from './_components/dynamicFavicon'
 import './global.css';
-import Script from 'next/script';
 
 interface LayoutProps {
   children: React.ReactNode; // use React.ReactNode for children
 }
 
+const TOTAL_FAVICONS = 10;
+
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const dynamicFavicon = useDynamicFavicon();
+  const [currentFaviconIndex, setCurrentFaviconIndex] = useState(1);
+
+  useEffect(() => {
+    // Set an interval to change the favicon index
+    const interval = setInterval(() => {
+      setCurrentFaviconIndex((prevIndex) => {
+        // When reaching the last favicon, start from the first one again
+        return prevIndex >= TOTAL_FAVICONS ? 1 : prevIndex + 1;
+      });
+    }, 500); // Change favicon every 1000ms (1 second)
+
+    // Clear the interval when the component is unmounted
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <ThemeProvider>
       <html>
@@ -22,9 +37,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#000000" />
           <meta name="description" content="Web site created using create-next-app" />
-          <link rel="icon" href={dynamicFavicon} type="image/x-icon" />
           <title>Matthew Bevis • Software Developer</title>
         </head>
+        <DynamicFavicon iconIndex={currentFaviconIndex} />
           <body><Header/>{children}<Footer/></body>
       </html>
     </ThemeProvider>
@@ -32,30 +47,3 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 };
 
 export default Layout;
-
-export const useDynamicFavicon = (intervalDuration: number = 300): string => {
-  const [currentFavicon, setCurrentFavicon] = useState(0);
-  const favicons = [
-    './icons/favicon1.ico',
-    './icons/favicon2.ico',
-    './icons/favicon3.ico',
-    './icons/favicon4.ico',
-    './icons/favicon5.ico',
-    './icons/favicon6.ico',
-    './icons/favicon7.ico',
-    './icons/favicon8.ico',
-    './icons/favicon9.ico',
-    './icons/favicon10.ico',
-  ];
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentFavicon((current) => (current + 1) % favicons.length);
-    }, intervalDuration);
-
-    return () => clearInterval(intervalId);
-  }, [intervalDuration, favicons.length]);
-
-  return favicons[currentFavicon];
-};
-
