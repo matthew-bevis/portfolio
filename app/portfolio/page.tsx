@@ -1,26 +1,39 @@
 'use client'
 
-import React, { useState } from 'react';
-
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import React from 'react';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '../context/themeContext';
 
 function PortfolioPage() {
-    const [showMore, setShowMore] = useState(false);
+  const { theme } = useTheme();
 
-    return (
-        <div>
-            <h1>My Portfolio</h1>
-            <h3>Welcome to the Portfolio Page!</h3>
-            <Typography variant="body1" component="p">
-                Here are some different small tools and applications I have created. If you have any questions,
-                feel free to <Link href="/contact" className="customLink">contact me</Link>!
-            </Typography> 
-            <button onClick={() => setShowMore(!showMore)}>
-                {showMore ? 'Show Less' : 'Show '}
-            </button>
-            {showMore && <Typography variant="body2">This is the additional information that was hidden before!</Typography>}
-        </div>
-    );
-}      
+  return (
+    <div className="banner">
+      <AnimatePresence>
+        <motion.div
+          key={theme}
+          className={`portfolio-banner-image ${theme}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 2.3 } }}
+          exit={{ opacity: 0, transition: { duration: 0.2 } }}
+        />
+      </AnimatePresence>
+      <div className="portfolio-banner-text" 
+        style={{
+            backgroundColor: theme === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+            border: `2px solid ${theme === 'dark' ? '#000000' : '#ffffff'}`,
+            borderRadius: '8px'
+        }}>
+        <h1>Here are some projects I&apos;ve worked on.</h1>
+        <h3>For a better look at what I can do, check out my </h3>
+        <a href="https://github.com/Matthew-Bevis" className="github-link" style={{backgroundColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.5)':  'rgba(255, 255, 255, 0.5)', borderRadius: '8px', paddingTop: '7px', paddingRight: '2px', paddingLeft: '2px' }}>
+          <GitHubIcon/>
+          GitHub
+        </a>
+      </div>
+    </div>
+  );
+}
+
 export default PortfolioPage;

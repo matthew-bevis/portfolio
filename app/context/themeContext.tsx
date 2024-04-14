@@ -14,18 +14,6 @@ interface ThemeContextType {
     toggleTheme: () => void;
 }
 
-const lightTheme = createTheme({
-    palette: {
-        mode: 'light',
-    },
-});
-
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-    },
-});
-
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const muiTheme = createTheme({

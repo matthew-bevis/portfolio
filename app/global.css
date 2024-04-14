@@ -21,6 +21,28 @@
     z-index: 1; /* Ensure images are behind the text */
 }
 
+.about-banner-image{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1; /* Ensure images are behind the text */
+}
+
+.portfolio-banner-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1; /* Ensure images are behind the text */
+}
+
 .banner-text {
     position: relative;
     width: 80vw; /* Scale with the viewport */
@@ -29,6 +51,48 @@
     font-weight: bold; /* Make text bolder */
     text-align: center; /* Center content */
     z-index: 2;
+}
+
+.portfolio-banner-text {
+    position: relative;
+    top: -10vh;
+    width: 80vw; /* Scale with the viewport */
+    max-width: 500px; /* Maximum width */
+    margin: auto; /* Center horizontally */
+    font-weight: bold; /* Make text bolder */
+    text-align: center; /* Center content */
+    z-index: 2;
+}
+
+.contact-banner-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1; /* Ensure images are behind the text */
+}
+
+.contact-banner-text {
+    margin-top: 50px;
+    position: relative;
+    top: -1vh;
+    width: 80vw; /* Scale with the viewport */
+    max-width: 500px; /* Maximum width */
+    margin: auto; /* Center horizontally */
+    font-weight: 800; /* Make text bolder */
+    text-align: center; /* Center content */
+    z-index: 2;
+}
+
+.contact-banner-image.light {
+    background-image: url('./images/contactbanner.webp');
+}
+
+.contact-banner-image.dark {
+    background-image: url('./images/contactbannernegative.webp');
 }
 
 .banner-image.light {
@@ -47,6 +111,19 @@
     background-image: url('./images/aboutbannernegative2.webp');
 }
 
+.portfolio-banner-image.light {
+    background-image: url('./images/portfoliobanner.webp');
+}
+
+.portfolio-banner-image.dark {
+    background-image: url('./images/portfoliobannernegative.webp');
+}
+
 body{
     margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
