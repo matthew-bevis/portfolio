@@ -1,34 +1,30 @@
 'use client'
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '../context/themeContext';
+import Toolbox from '../_components/toolbox';
 
-function AboutPage() {
-  // Container variants for animation
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 }
-    }
-  };
-  
-  // Child component variants
-  const childVariants = {
-    hidden: { scale: 0.5 },
-    visible: { 
-      scale: 1,
-      transition: { duration: 0.5 }
-    }
-  };
-  
-  // Corrected return statement
+const AboutPage: React.FC = () => {
+  const { theme } = useTheme(); // Ensure useTheme hook returns a typed object
+
   return (
-    <motion.div variants={containerVariants} initial="hidden" animate="visible">
-      <motion.div variants={childVariants}>Child 1</motion.div>
-      <motion.div variants={childVariants}>Child 2</motion.div>
-      <motion.div variants={childVariants}>Child 3</motion.div>
-    </motion.div>
+    <div className="banner">
+      <AnimatePresence>
+        <motion.div
+          key={theme}
+          className={`about-banner-image ${theme}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 2.3 } }}
+          exit={{ opacity: 0, transition: { duration: 0.2 } }}
+        />
+      </AnimatePresence>
+      <div className="banner-text">
+        <h1>My name is Matthew</h1>
+        <h3>Here are some of the tools I work with</h3>
+        <Toolbox/>
+      </div>
+    </div>
   );
 }
 

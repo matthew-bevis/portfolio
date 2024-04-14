@@ -1,15 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion'; // Import Framer Motion
 // Import SVGs as React components
-import  CSS3Icon from '../assets/icons/css3-original.svg';
-import GitIcon from '../assets/icons/git-original.svg';
-import HTML5Icon from '../assets/icons/html5-original.svg';
-import JavaScriptIcon from '../assets/icons/javascript-original.svg';
-import MaterialUIIcon from '../assets/icons/materialui-original.svg';
-import MongoDBIcon from '../assets/icons/mongodb-original.svg';
-import NodeJSIcon from '../assets/icons/nodejs-original.svg';
-import ReactIcon from '../assets/icons/react-original.svg';
-import TypeScriptIcon from '../assets/icons/typescript-original.svg';
+import  CSS3Icon from '../icons/css3-original.svg';
+import GitIcon from '../icons/git-original.svg';
+import HTML5Icon from '../icons/html5-original.svg';
+import JavaScriptIcon from '../icons/javascript-original.svg';
+import MaterialUIIcon from '../icons/materialui-original.svg';
+import MongoDBIcon from '../icons/mongodb-original.svg';
+import NodeJSIcon from '../icons/nodejs-original.svg';
+import ReactIcon from '../icons/react-original.svg';
+import TypeScriptIcon from '../icons/typescript-original.svg';
 
 const whileHover = { scale: 1.1 };
 

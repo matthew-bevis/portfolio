@@ -6,7 +6,7 @@ import './global.css';
 
 function Page() {
     return (
-            <HomePage/>
+        <HomePage/>
     );
 }
 

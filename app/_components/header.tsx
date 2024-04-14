@@ -81,8 +81,8 @@ const Header: React.FC = () => {
                         >
                             {menuItems.map((item) => (
                                 <MenuItem key={item.name} onClick={handleClose}>
-                                    <Link href={item.link} passHref>
-                                        <a style={{ display: 'flex', alignItems: 'center' }}>
+                                    <Link href={item.link} passHref legacyBehavior>
+                                        <a style={{ display: 'flex', alignItems: 'center', color: theme.palette.mode === 'dark' ? 'white' : 'black', textDecoration: 'inherit' }}>
                                             {item.icon}{item.name}
                                         </a>
                                     </Link>
@@ -97,7 +97,7 @@ const Header: React.FC = () => {
                                 <Button
                                     startIcon={item.icon}
                                     color="inherit"
-                                    sx={{ margin: '0 10px' }}
+                                    sx={{ margin: '0 10px', textDecoration: 'none', color: theme.palette.mode === 'dark' ? 'white' : 'black' }}
                                 >
                                     {item.name}
                                 </Button>

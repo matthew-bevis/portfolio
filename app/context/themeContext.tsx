@@ -17,7 +17,6 @@ interface ThemeContextType {
 const lightTheme = createTheme({
     palette: {
         mode: 'light',
-        
     },
 });
 
