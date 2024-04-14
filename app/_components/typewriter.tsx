@@ -1,44 +1,42 @@
 import React, { useEffect, useState } from 'react';
 
 interface TypewriterProps {
-    text: string;
-    speed: number;
-    onTypingDone?: () => void;
+  text: string;
+  speed: number;
+  onTypingDone?: () => void;
 }
 
 const Typewriter: React.FC<TypewriterProps> = ({ text, speed, onTypingDone }) => {
-    const [typedText, setTypedText] = useState<string>('');
-    const [currentIndex, setCurrentIndex] = useState<number>(0); // Now explicitly typed as number
-    const [isTypingComplete, setIsTypingComplete] = useState<boolean>(false);
+  const [typedText, setTypedText] = useState<string>('');
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
-    useEffect(() => {
-        if (isTypingComplete || !text || currentIndex >= text.length) {
-        return;
+  useEffect(() => {
+    if (currentIndex >= text.length) {
+      // Invoke the callback in a way that it's not directly during the render phase
+      if (onTypingDone) {
+        setTimeout(onTypingDone, 0);
+      }
+      return;
     }
 
-    const typingInterval = setInterval(() => {
-        setTypedText((prev) => prev + text[currentIndex]);
-        setCurrentIndex((prevIndex) => {
-        const newIndex = prevIndex + 1;
-        if (newIndex === text.length) {
-            clearInterval(typingInterval);
-            setIsTypingComplete(true);
-            onTypingDone && onTypingDone();
-        }
-        return newIndex;
-        });
+    const typingTimeout = setTimeout(() => {
+      setTypedText((prev) => prev + text[currentIndex]);
+      setCurrentIndex(currentIndex + 1);
     }, speed);
 
-    return () => clearInterval(typingInterval);
-    }, [text, speed, onTypingDone, isTypingComplete, currentIndex]);
+    // Clean up the timeout when the component unmounts or when the dependencies change
+    return () => clearTimeout(typingTimeout);
+  }, [currentIndex, text, speed, onTypingDone]);
 
-    useEffect(() => {
-    setTypedText('');
-    setCurrentIndex(0);
-    setIsTypingComplete(false);
-    }, [text]);
+  useEffect(() => {
+    // Reset the typing effect when the `text` prop changes
+    if (text) {
+      setTypedText('');
+      setCurrentIndex(0);
+    }
+  }, [text]);
 
-    return <span>{typedText}</span>;
+  return <span>{typedText}</span>;
 };
 
 export default Typewriter;

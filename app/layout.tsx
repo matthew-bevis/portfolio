@@ -23,7 +23,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <meta name="theme-color" content="#000000" />
           <meta name="description" content="Web site created using create-next-app" />
           <link rel="icon" href={dynamicFavicon} type="image/x-icon" />
-          <link rel="manifest" href="/manifest.json" />
           <title>Matthew Bevis • Software Developer</title>
         </head>
           <body><Header/>{children}<Footer/></body>
