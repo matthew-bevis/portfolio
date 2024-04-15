@@ -5,9 +5,14 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const emailHandler = async (req: VercelRequest, res: VercelResponse) => {
-    if (req.method !== 'POST') {
-        return res.status(405).send({ error: 'Only POST requests allowed' });
+    if (req.method === 'POST') {
+        // Your logic here
+        res.status(200).json({ message: 'Email sent successfully' });
+    } else {
+        res.setHeader('Allow', ['POST']);
+        res.status(405).end(`Method ${req.method} Not Allowed`);
     }
+}
 
     const { name, email, company, message } = req.body;
 
