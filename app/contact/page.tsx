@@ -41,7 +41,7 @@ const ContactPage: React.FC = () => {
           <Typography sx={{color: 'red'}}>! The above form is still in development !</Typography>
           <Typography>Please use the following to contact me in the mean time:</Typography>
           <Grid container xs={12} sx={{justifyContent: 'center', alignContent: 'center', maxWidth: '100%'}}>
-            <Grid item sx={{p:2}}><Typography>Phone: (850) 590  - 9352 </Typography><Typography>Email: matthew-bevis@comcast.net </Typography></Grid>
+            <Grid item sx={{p:2}}><Typography>Email: matthew-bevis@comcast.net </Typography></Grid>
           </Grid>
         </Box>
       </Grid>
