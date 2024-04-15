@@ -55,7 +55,7 @@ const ContactForm: React.FC = () => {
         return Object.keys(tempErrors).length === 0;
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         if (validateForm()) {
             try {
