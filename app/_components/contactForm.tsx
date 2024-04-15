@@ -70,6 +70,7 @@ const ContactForm: React.FC = () => {
                     throw new Error('Failed to send email');
                 }
                 const data = await response.json();
+                console.log(data)
                 alert('Form is valid and submitted, check your email for data.');
             } catch (error: any) {
                 console.error('Error:', error);
