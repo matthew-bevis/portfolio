@@ -55,7 +55,7 @@ const ContactForm: React.FC = () => {
         return Object.keys(tempErrors).length === 0;
     };
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
             try {
@@ -66,13 +66,13 @@ const ContactForm: React.FC = () => {
                     },
                     body: JSON.stringify(formData),
                 });
-                const data = await response.json();
-                if (response.ok) {
-                    alert('Form is valid and submitted, check your email for data.');
-                } else {
-                    throw new Error(data.error || 'Failed to send email');
+                if (!response.ok) {
+                    throw new Error('Failed to send email');
                 }
+                const data = await response.json();
+                alert('Form is valid and submitted, check your email for data.');
             } catch (error: any) {
+                console.error('Error:', error);
                 alert(`Error: ${error.message}`);
             }
         }
