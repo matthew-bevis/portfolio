@@ -29,11 +29,11 @@ const Footer = () => {
                             Connect
                         </Typography>
                         <Box display="flex" justifyContent="flex-start" alignItems="center">
-                            <Link href="https://www.linkedin.com/in/matthew-bevis-0ab2aa233/" color="inherit">
+                            <Link href="https://www.linkedin.com/in/matthew-bevis-0ab2aa233/" target='_blank' color="inherit">
                                 <LinkedInIcon sx={{ mr: 1 }} />
                                 LinkedIn
                             </Link>
-                            <Link href="https://github.com/matthew-bevis" color="inherit" sx={{ ml: 2 }}>
+                            <Link href="https://github.com/matthew-bevis"  target='_blank' color="inherit" sx={{ ml: 2 }}>
                                 <GitHubIcon sx={{ mr: 1 }} />
                                 GitHub
                             </Link>
