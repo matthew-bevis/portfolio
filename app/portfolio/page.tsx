@@ -1,15 +1,16 @@
-'use client'
+'use client';
 
 import React from 'react';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/themeContext';
+import { Box, Grid, Typography, Link } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
-function PortfolioPage() {
+const PortfolioPage: React.FC = () => {
   const { theme } = useTheme();
 
   return (
-    <div className="banner">
+    <Grid container sx={{ position: 'relative', flexGrow: 1, justifyContent: 'center', alignItems:'start', display: 'flex', flexDirection: 'column', minHeight: '100vh', overflow: 'hidden' }}>
       <AnimatePresence>
         <motion.div
           key={theme}
@@ -19,14 +20,23 @@ function PortfolioPage() {
           exit={{ opacity: 0, transition: { duration: 0.2 } }}
         />
       </AnimatePresence>
-      <div className="portfolio-banner-text" 
-        style={{
-            backgroundColor: theme === 'dark' ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)',
-            border: `2px solid ${theme === 'dark' ? '#000000' : '#ffffff'}`,
-            borderRadius: '8px',
-            paddingBottom: '20px'
+      <Grid item xs={12} sm={10} md={8} lg={6} xl={4}
+        sx={{
+          backgroundColor: theme === 'dark' ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+          border: `2px solid ${theme === 'dark' ? '#000000' : '#ffffff'}`,
+          borderRadius: '8px',
+          p: 2,
+          m: 'auto',
+          flexDirection: 'column',
+          textAlign: 'center',
+          boxSizing: 'border-box',
+          zIndex: 1,
         }}>
-        <h3>As a driven and innovative software developer, I am constantly engaged 
+        <Typography variant='h3' component='h1' gutterBottom sx={{ fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>
+          Portfolio Highlights
+        </Typography>
+        <Typography variant='subtitle1' sx={{ fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' } }} gutterBottom>
+            As a driven and innovative software developer, I am constantly engaged 
             in developing and refining technology solutions. I&apos;m currently working 
             on an exciting project at Bulkitrade where I&apos;m building a new application 
             from scratch using React and MUI. This project is a cornerstone in my journey 
@@ -44,14 +54,25 @@ function PortfolioPage() {
             challenges but also underscores my commitment to facilitating effective digital 
             communication in a post-pandemic era. Through these projects, I aim to push the 
             boundaries of what&apos;s possible in software development and create tools that enhance 
-            connectivity and functionality for users worldwide.</h3>
-        <h3>For a better look at what I can do, check out my </h3>
-        <a href="https://github.com/Matthew-Bevis" className="github-link" style={{backgroundColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.5)':  'rgba(255, 255, 255, 0.5)', borderRadius: '8px', paddingTop: '7px', paddingRight: '2px', paddingLeft: '2px' }}>
-          <GitHubIcon/>
+            connectivity and functionality for users worldwide.
+        </Typography>
+        <Typography variant='h5' sx={{ fontWeight: 'bold', fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' } }}>For a better look at what I can do check out my GitHub</Typography>
+        <Link href="https://github.com/Matthew-Bevis" className="github-link" sx={{
+          backgroundColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.75)': 'rgba(255, 255, 255, 0.75)',
+          borderRadius: '8px',
+          padding: '7px',
+          margin: '2px',
+          display: 'inline-flex',
+          alignItems: 'center',
+          '&:hover': {
+            opacity: 0.7,
+          },
+        }}>
+          <GitHubIcon sx={{ mr: 1 }} />
           GitHub
-        </a>
-      </div>
-    </div>
+        </Link>
+      </Grid>
+    </Grid>
   );
 }
 
