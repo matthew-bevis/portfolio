@@ -67,7 +67,10 @@ const ContactForm: React.FC = () => {
                     body: JSON.stringify(formData),
                 });
                 if (!response.ok) {
+                    const data = await response.json();
+                    console.log(data)
                     throw new Error('Failed to send email');
+                    
                 }
                 const data = await response.json();
                 console.log(data)
