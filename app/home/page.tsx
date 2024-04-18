@@ -8,6 +8,9 @@ import AboutContent from '../about/aboutContent';
 import { Grid } from '@mui/material';
 import PortfolioContent from '../portfolio/portfolioContent';
 import ContactContent from '../contact/contactContent';
+import bgLight from '../images/bgLight.webp';
+import bgDark from '../images/bgDark.webp';
+import Image from 'next/image';
 
 function HomePage() {
     const { theme } = useTheme();
@@ -28,6 +31,7 @@ function HomePage() {
 
     const bgColor1 = (theme === 'light') ? '#FFFFFF' : '#A0A0A0';
     const bgColor2 = (theme === 'light') ? '#E5E5E5' : '#6F6F6F';
+    const bgImage = (theme === 'light') ? bgLight : bgDark;
 
     return (
     <Grid container direction="column" alignItems="center" justifyContent="center" maxWidth= '100%' width= '100%'>
@@ -74,17 +78,33 @@ function HomePage() {
             )}
             </AnimatePresence>
         </Grid>
-        <Grid item sx={{pt:'50px', pb: '50px' , bgcolor: bgColor2}}>
-            <AboutContent/>
+        <Grid container sx={{position: 'relative', zIndex: 0 }}>
+            <Image src={bgImage} alt="bgImage" layout= 'fill' objectFit='cover'/>
+        <Grid container xs={12} xl={12} sx={{zIndex: 1}}>
+        <Grid item xl={1} sx={{
+                display: { xs: 'none', xl: 'block' }
+            }}/>
+        <Grid container xs={12} xl={10}>
+            <Grid item sx={{pt:'50px', pb: '50px' , bgcolor: bgColor2}}>
+                <AboutContent/>
+            </Grid>
+            <Grid item sx={{pt:'50px', pb: '50px', bgcolor: bgColor1}}>
+                <PortfolioContent/>
+            </Grid>
+            <Grid item sx={{ bgcolor: bgColor2, width: '100%' }}>
+                <Grid container justifyContent="center" sx={{ maxWidth: 'lg', width: '100%', margin: '0 auto' }}>
+                    <Grid item xs={12} sx={{ pt: '50px', pb: '50px' }}>
+                        <ContactContent />
+                    </Grid>
+                </Grid>
+            </Grid>
         </Grid>
-        <Grid item sx={{pt:'50px', pb: '50px', bgcolor: bgColor1}}>
-            <PortfolioContent/>
-        </Grid>
-        <Grid item sx={{pt:'50px', pb: '50px' , bgcolor: bgColor2, maxWidth: '100%', width: '100%'}}>
-            <ContactContent/>
-        </Grid>
+        <Grid item xl={1} sx={{
+                display: { xs: 'none', xl: 'block' }
+            }}/>
     </Grid>
-    
+    </Grid>
+    </Grid>
     );
 }
 
