@@ -11,6 +11,7 @@ import ContactContent from '../contact/contactContent';
 import bgLight from '../images/bgLight.webp';
 import bgDark from '../images/bgDark.webp';
 import Image from 'next/image';
+import MBbanner from '../images/mb_banner.webp';
 
 function HomePage() {
     const { theme } = useTheme();
