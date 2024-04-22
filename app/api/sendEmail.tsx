@@ -1,40 +1,49 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
-import dotenv from 'dotenv';
-import mailchimpTransactional from '@mailchimp/mailchimp_transactional';
+import axios from 'axios';
+import dotenv from 'dotenv'
+
 
 dotenv.config();
+// Replace these with your actual Mailchimp API key, server prefix, and list ID.
 
-const mailchimpClient = mailchimpTransactional({ apiKey: process.env.API_KEY });
 
-export default async function sendEmail(req: VercelRequest, res: VercelResponse) {
-    // Set CORS headers
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+export default async function handler(req: any, res: any) {
+    if (req.method === 'POST') {
+        const { name, email, company, message } = req.body;
 
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
+        // Prepare the payload for Mailchimp
+        const subscriberData = {
+            email_address: email,
+            status: 'subscribed', // Adjust according to your Mailchimp list settings
+            merge_fields: {
+                FNAME: name,
+                COMPANY: company,
+                MESSAGE: message,
+            },
+        };
 
-    if (req.method !== 'POST') {
+        try {
+            const url = `https://${process.env.REGION}.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_LIST_ID}/members/`;
+            const response = await axios.post(url, subscriberData, {
+                headers: {
+                    'Authorization': `apikey ${process.env.API_KEY}`,
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            // Handle response from Mailchimp
+            if (response.status === 200) {
+                res.status(200).json({ message: 'Email sent successfully', data: response.data });
+            } else {
+                throw new Error('Failed to send email');
+            }
+        } catch (error: any) {
+            console.error('Error:', error);
+            res.status(500).json({ error: 'Failed to send email', details: error.message });
+        }
+    } else {
+        // Handle any other HTTP methods
         res.setHeader('Allow', ['POST']);
-        return res.status(405).json({ error: 'Method Not Allowed' });
-    }
-
-    const { name, email, company, message } = req.body;
-
-    const messageContent = {
-        from_email: process.env.EMAIL_USER,
-        subject: "New message from your website!",
-        text: `Name: ${name}\nEmail: ${email}\nCompany: ${company}\nMessage: ${message}`,
-        to: [{ email: 'matthew-bevis@comcast.net', type: 'to' }]
-    };
-
-    try {
-        const response = await mailchimpClient.messages.send({ message: messageContent });
-        res.status(200).json({ message: 'Email sent successfully', response });
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to send email', details: error });
+        res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 }
+
