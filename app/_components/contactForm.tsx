@@ -40,43 +40,68 @@ const ContactForm: React.FC = () => {
         }));
     };
 
-    const validateForm = (): boolean => {
-        let tempErrors: FormErrors = {};
-        if (!formData.name) tempErrors.name = "Name is required.";
+    function validateForm(formData: { [key: string]: any }): FormErrors {
+        let errors: FormErrors = {};
+    
+        // Check each field and populate the errors object as needed
+        if (!formData.name) errors.name = "Name is required.";
         if (!formData.email) {
-            tempErrors.email = "Email is required.";
+            errors.email = "Email is required.";
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            tempErrors.email = "Email is invalid.";
+            errors.email = "Email is invalid.";
         }
-        if (!formData.company) tempErrors.company = "Company is required.";
-        if (!formData.message) tempErrors.message = "Message is required.";
+        if (!formData.company) errors.company = "Company is required.";
+        if (!formData.message) errors.message = "Message is required.";
+    
+        return errors;
+    }
 
-        setErrors(tempErrors);
-        return Object.keys(tempErrors).length === 0;
-    };
+    async function handleSubmit(event: any) {
+        event.preventDefault();
 
-    const handleSubmit = async (e: any) => {
-        e.preventDefault();
-        if (validateForm()) {
-            try {
-                const formData = new FormData(e.target);
-                const response = await fetch('/api/sendEmail', {
-                    method: 'POST',
-                    body: formData,
-                });
-                if (!response.ok) {
-                    const data = await response.json();
-                    console.log(data)
-                    throw new Error('Failed to send email');
-                    
-                }
-                const data = await response.json();
-                console.log(data)
-                alert('Form is valid and submitted, check your email for data.');
-            } catch (error: any) {
-                console.error('Error:', error);
-                alert(`Error: ${error.message}`);
+        // Create a FormData object with the form values
+        const formData = new FormData(event.target);
+    
+        // Convert FormData into a plain object for easier validation
+        const formObject: { [key: string]: any } = {};
+        formData.forEach((value, key) => {
+            formObject[key] = value;
+        });
+    
+        // Validate the form data
+        const errors = validateForm(formObject);
+        setErrors(errors);
+    
+        // If any errors are found, don't proceed to the API request
+        if (Object.keys(errors).length > 0) {
+            alert("Please correct the errors in the form before submitting.");
+            return;
+        }
+    
+        try {
+            // Send a POST request with JSON-encoded form data
+            const response = await fetch('/api/sendEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formObject),
+            });
+    
+            // Check if the response is not OK and throw an error
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
             }
+    
+            // Extract the message returned from the API
+            const responseData = await response.json();
+            console.log(responseData.message);
+    
+            // Show a success alert if the message was sent
+            alert('Message successfully sent!');
+        } catch (err) {
+            console.error(err);
+            alert('Error, please try resubmitting the form.');
         }
     };
 
