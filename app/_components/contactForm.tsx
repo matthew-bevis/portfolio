@@ -59,12 +59,10 @@ const ContactForm: React.FC = () => {
         e.preventDefault();
         if (validateForm()) {
             try {
+                const formData = new FormData(e.target);
                 const response = await fetch('/api/sendEmail', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
+                    body: formData,
                 });
                 if (!response.ok) {
                     const data = await response.json();

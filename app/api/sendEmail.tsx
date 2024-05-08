@@ -1,39 +1,57 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
+import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
+// Load environment variables from .env
 dotenv.config();
 
-const emailHandler = async (req: VercelRequest, res: VercelResponse) => {
-    if (req.method === 'POST') {
-        const { name, email, company, message } = req.body;
+// Create the POST function for handling form submissions
+export async function POST(request: any) {
+    // Load credentials from environment variables
+    const user = process.env.EMAIL_USER;
+    const pw = process.env.EMAIL_PASS;
+    const service = process.env.EMAIL_SERVICE;
+    const myEmail = process.env.MY_EMAIL;
 
-        const transporter = nodemailer.createTransport({
-            service: process.env.EMAIL_SERVICE, // e.g., 'Gmail', 'Outlook'
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        });
-
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: 'matthew-bevis@comcast.net',
-            subject: 'New message from your website!',
-            text: `Name: ${name}\nEmail: ${email}\nCompany: ${company}\nMessage: ${message}`,
-            html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Company:</strong> ${company}</p><p><strong.Message:</strong> ${message}</p>`
-        };
-
-        try {
-            await transporter.sendMail(mailOptions);
-            res.status(200).json({ message: 'Email sent successfully' });
-        } catch (error) {
-            res.status(500).json({ error: 'Failed to send email' });
-        }
-    } else {
-        res.setHeader('Allow', ['POST']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
+    // Check that all environment variables are present
+    if (!user || !pw || !myEmail) {
+        return NextResponse.json({ message: "Missing required environment variables." }, { status: 500 });
     }
-};
 
-export default emailHandler;
+    // Parse the incoming form data
+    const formData = await request.formData();
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const message = formData.get('message');
+
+    // Create the Nodemailer transporter object
+    const transporter = nodemailer.createTransport({
+        service,
+        auth: {
+            user,
+            pass: pw,
+        },
+    });
+
+    // Construct the email content
+    const mailOptions = {
+        from: user,
+        to: myEmail, // Replace this with your desired recipient address
+        replyTo: email,
+        subject: `Website activity from ${email}`,
+        html: `
+            <p>Name: ${name}</p>
+            <p>Email: ${email}</p>
+            <p>Message: ${message}</p>
+        `,
+    };
+
+    // Try sending the email
+    try {
+        await transporter.sendMail(mailOptions);
+        return NextResponse.json({ message: "Success: email was sent." });
+    } catch (error) {
+        console.error('Error:', error);
+        return NextResponse.json({ message: "Could not send the message." }, { status: 500 });
+    }
+}
