@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 
-// Define types for the form data and errors
+// Define types for form data and errors
 interface FormData {
     name: string;
     email: string;
@@ -19,9 +19,9 @@ interface FormErrors {
 }
 
 const ContactForm: React.FC = () => {
-    const theme = useTheme(); // This now pulls theme settings from MUI
+    const theme = useTheme(); // This pulls theme settings from MUI
 
-    // State for form data
+    // State for form data and errors
     const [formData, setFormData] = useState<FormData>({
         name: '',
         email: '',
@@ -29,9 +29,9 @@ const ContactForm: React.FC = () => {
         message: '',
     });
 
-    // State for error handling
     const [errors, setErrors] = useState<FormErrors>({});
 
+    // Handle input field changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -40,70 +40,58 @@ const ContactForm: React.FC = () => {
         }));
     };
 
-    function validateForm(formData: { [key: string]: any }): FormErrors {
-        let errors: FormErrors = {};
-    
-        // Check each field and populate the errors object as needed
-        if (!formData.name) errors.name = "Name is required.";
-        if (!formData.email) {
-            errors.email = "Email is required.";
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            errors.email = "Email is invalid.";
-        }
-        if (!formData.company) errors.company = "Company is required.";
-        if (!formData.message) errors.message = "Message is required.";
-    
-        return errors;
-    }
+    // Submit function for form submission
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault(); // Prevent default form submission
 
-    async function handleSubmit(event: any) {
-        event.preventDefault();
-
-        // Create a FormData object with the form values
-        const formData = new FormData(event.target);
-    
-        // Convert FormData into a plain object for easier validation
-        const formObject: { [key: string]: any } = {};
-        formData.forEach((value, key) => {
-            formObject[key] = value;
+        // Convert form data to a plain object for validation and submission
+        const formDataObject: Record<string, string> = {};
+        new FormData(event.currentTarget).forEach((value, key) => {
+            formDataObject[key] = value.toString();
         });
-    
-        // Validate the form data
-        const errors = validateForm(formObject);
-        setErrors(errors);
-    
-        // If any errors are found, don't proceed to the API request
-        if (Object.keys(errors).length > 0) {
-            alert("Please correct the errors in the form before submitting.");
+
+        // Basic validation checks for required fields
+        const newErrors: FormErrors = {};
+        if (!formDataObject.name) newErrors.name = "Name is required.";
+        if (!formDataObject.email) {
+            newErrors.email = "Email is required.";
+        } else if (!/\S+@\S+\.\S+/.test(formDataObject.email)) {
+            newErrors.email = "Email is invalid.";
+        }
+        if (!formDataObject.message) newErrors.message = "Message is required.";
+
+        // Update errors state and return early if errors exist
+        setErrors(newErrors);
+        if (Object.keys(newErrors).length > 0) {
+            alert("Please fix the errors before submitting.");
             return;
         }
-    
+
+        // Proceed with sending data to the server-side API endpoint
         try {
-            // Send a POST request with JSON-encoded form data
-            const response = await fetch('./sendEmail', {
+            const response = await fetch('/api', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formObject),
+                body: JSON.stringify(formDataObject),
             });
-    
-            // Check if the response is not OK and throw an error
+
+            // Check if the response is OK
             if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
+                throw new Error(`Server responded with status: ${response.status}`);
             }
-    
-            // Extract the message returned from the API
-            const responseData = await response.json();
-            console.log(responseData.message);
-    
-            // Show a success alert if the message was sent
-            alert('Message successfully sent!');
-        } catch (err) {
-            console.error(err);
-            alert('Error, please try resubmitting the form.');
+
+            // Process the response data
+            const data = await response.json();
+            console.log(data.message); // Log the success message to console
+            alert('Message successfully sent!'); // Show a success alert
+
+        } catch (error) {
+            console.error('Error sending message:', error);
+            alert('Failed to send message. Please try again.');
         }
-    };
+    }
 
     // CSS styles using MUI theme
     const styles = {
@@ -166,7 +154,6 @@ const ContactForm: React.FC = () => {
             <div style={styles.inputField}>
                 <label style={styles.label}>Company:</label>
                 <input type="text" name="company" value={formData.company} onChange={handleChange} style={styles.input} />
-                {errors.company && <p style={styles.errorText}>{errors.company}</p>}
             </div>
             <div style={styles.inputField}>
                 <label style={styles.label}>Message:</label>
@@ -179,3 +166,4 @@ const ContactForm: React.FC = () => {
 }
 
 export default ContactForm;
+
