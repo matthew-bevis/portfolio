@@ -22,13 +22,6 @@ const ContactContent: React.FC = () => {
         <Box sx={{ width: '100%', bgcolor: 'background.paper', alignItems: 'center', borderRadius: '22px'}}>
             <ContactForm />
         </Box >
-        <Box sx={{ width: '100%', alignItems: 'center'}}>
-            <Typography sx={{color: 'red'}}>! The above form is still in development !</Typography>
-            <Typography>Please use the following to contact me in the mean time:</Typography>
-            <Grid container xs={12} sx={{justifyContent: 'center', alignContent: 'center', maxWidth: '100%'}}>
-                <Grid item sx={{p:2}}><Typography>Email: matthew-bevis@comcast.net </Typography></Grid>
-            </Grid>
-        </Box>
     </Grid>
     );
 };
