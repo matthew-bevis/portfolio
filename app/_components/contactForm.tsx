@@ -80,7 +80,7 @@ const ContactForm: React.FC = () => {
     
         try {
             // Send a POST request with JSON-encoded form data
-            const response = await fetch('/api/sendEmail', {
+            const response = await fetch('./sendEmail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
